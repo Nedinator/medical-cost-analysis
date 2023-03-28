@@ -8,12 +8,12 @@ output:
 author: 
   - first_name: "Neal"
     last_name: "Carico"
-    url: https://github.com/nealcarico/medical-cost-analysis.git
+    url: https://github.com/Nedinator/medical-cost-analysis
 ---
 # Intro
 > This exploratory data analysis was done with the skills I obtained from both the Google Data Analysis Certificate program as well as University of Michigan Data Analytics in the Public Sector Certificate Program.
 
-### Preparing my environment and taking a peak at the data
+### Preparing my environment and taking a peek at the data
 
 ```{r}
 library(tidyverse) # metapackage of all tidyverse packages
@@ -29,7 +29,7 @@ any(is.na(data))
 ```
 
 ## The Ask
-> What insights can an insurance company get from this kind of data? 
+> What insights can an anti-tobacco organization get from this kind of data? 
 
 ### Questions and assumptions
 
@@ -52,22 +52,15 @@ data$'smoker' <- ifelse(data$'smoker' == 'yes', TRUE, FALSE)
 ```{r}
 data %>% 
   mutate(
-    age_group = dplyr::case_when(
+    ageGroup = dplyr::case_when(
       age <= 18 ~ "0-18",
       age > 18 & age <= 29 ~ "19-35",
       age > 29 & age <= 49 ~ "30-49",
       age > 49 & age <= 59 ~ "50-59",
       age > 59 ~ "> 59"
     )) %>%
-  ggplot(aes(x=age_group)) +
+  ggplot(aes(x=ageGroup)) +
   geom_bar(fill="#69b3a2", color="#e9ecef", alpha=0.8)
-```
-
-```{r}
-data %>%
-  ggplot(aes(x=age, y=charges, color=region)) +
-  geom_point(size=2)
-
 ```
 
 ### Smoking based charts
@@ -76,15 +69,17 @@ data %>%
 data %>%
     ggplot(aes(x=smoker)) + 
     geom_bar(fill="#69b3a2", color="#e9ecef", alpha=0.8)
+summary(data$smoker)
 ```
 
 ```{r}
 data %>%
-    ggplot(aes(x=age , y=charges, color=smoker)) + 
-    geom_point(size=2)
+    ggplot(aes(x=smoker,)) + 
+    geom_bar(fill="#69b3a2", color="#e9ecef", alpha=0.8) + 
+    facet_wrap(~region)
 ```
 
-### children related charts
+### Children related charts
 
 ```{r}
 data %>%
@@ -141,3 +136,11 @@ data %>%
 -   BMI actually appears to have little effect on charges in this data set.
 -   Region, sex, and having dependents on plan isn't a factor that increases charges.
 -   There are 3 major trends that the data seems to follow that aren't quite identified yet (pictured in multiple plots including the last)
+
+
+### References 
+
+- Kaggle Data Set: https://www.kaggle.com/datasets/mirichoi0218/insurance
+- Tableau Dashboard: https://public.tableau.com/app/profile/neal.carico/viz/MedicalInsuranceViz/SummaryDashboard
+- Google Slides Presentation Deck: https://docs.google.com/presentation/d/1mv50m-ZSkvxoxfBERe3kBltK7GjPXQsgRxPwByEdUYo/edit?usp=sharing
+
