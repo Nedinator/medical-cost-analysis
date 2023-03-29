@@ -119,7 +119,7 @@ data %>%
 ```{r}
 data %>%
   ggplot(aes(x=smoker)) +
-  geom_bar(fill="#69b3a2", color="#e9ecef", alpha=0.8) + 
+  geom_bar(fill="#69b3a2", color="#e9ecef", alpha=0.8) +
   facet_wrap(~sex)
 ```
 
